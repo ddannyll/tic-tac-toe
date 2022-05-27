@@ -1,10 +1,12 @@
+const BoardDiv = document.querySelector('.board')
+
 const Gameboard = (() => {
     let turnCounter = 1
     const board = [[null, null, null],
                  [null, null, null],
                  [null, null, null]]
     const placeX = (row, col) => {
-        if (board[row][col] === null) {
+        if (board[row][col] === null && getTurn() === 'X') {
             board[row][col] = 'X'
             turnCounter += 1
             return true
@@ -12,7 +14,7 @@ const Gameboard = (() => {
         return false
     }
     const placeO = (row, col) => {
-        if (board[row][col] === null) {
+        if (board[row][col] === null && getTurn() === 'O') {
             board[row][col] = 'O'
             turnCounter += 1
             return true
@@ -64,5 +66,23 @@ const Gameboard = (() => {
 
         return 'playing'
     }
-    return {placeX, placeO, getTurn, getBoard, checkWinner}
+    const reset = () => {
+        board.forEach(row => row.splice(0,3,null,null,null))
+        turnCounter = 1
+    }
+    return {placeX, placeO, getTurn, getBoard, checkWinner, reset}
 })();
+
+const DisplayController = (()=> {
+    const update = () => {
+        const board = [].concat(...Gameboard.getBoard())
+        for (let i = 0; i < 9; i++) {
+            const boardSquare = BoardDiv.querySelector(`.boardSquare[data-square=${i}]`)
+            board[i] === null ? boardSquare.innerText = '' : boardSquare.innerText = board[i]
+        }
+    }
+    return {update}
+})
+
+
+
