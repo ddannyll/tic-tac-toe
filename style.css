@@ -1,3 +1,7 @@
+body {
+    font-family: 'comfortaa';
+}
+
 h1 {
     font-size: 3rem;
 }    
@@ -16,7 +20,7 @@ h1 {
     grid-template-columns: repeat(3, 1fr);
 }
 
-.board>.board-square {
+.board-square {
     background-color: aliceblue;
     width: 100px;
     height: 100px;
@@ -26,16 +30,23 @@ h1 {
     justify-content: center;
     align-items: center;
     transition: 0.2s;
+    cursor: pointer;
 }
 
-.board>.board-square:hover {
-    filter: brightness(0.92);
+
+.board-square:hover {
+    filter: brightness(0.95) saturate(2);
 }
 
 button.reset {
     padding: 1rem;
-    background-color: rgb(8, 199, 135);
+    background-color: rgb(49, 227, 168);
     margin: 0 40px;
     font-weight: bolder;
     color: white;
+    transition: 0.1s;
+}
+
+button.reset:active {
+    filter: brightness(0.9);
 }

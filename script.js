@@ -74,6 +74,7 @@ const Gameboard = (() => {
 const DisplayController = (()=> {
     const boardDiv = document.querySelector('.board')
     const resetButton = document.querySelector('button.reset')
+    const message = document.querySelector('.message')
 
     const _playSquare = (i) => {
         if (Gameboard.checkWinner() !== 'playing') return
@@ -88,6 +89,7 @@ const DisplayController = (()=> {
         boardSquares.forEach((square)=> {
             square.innerText = ''
         })
+        update()
     }
 
     resetButton.addEventListener('click', () => {
@@ -104,6 +106,7 @@ const DisplayController = (()=> {
             boardSquare.addEventListener('click', _playSquare.bind(null, i))
             boardDiv.appendChild(boardSquare)
         }
+        update()
     }
 
     const update = () => {
@@ -113,7 +116,18 @@ const DisplayController = (()=> {
             board[i] === null ? boardSquare.innerText = '' : boardSquare.innerText = board[i]
         }
 
-        
+        switch (Gameboard.checkWinner()) {
+            case 'playing':
+                message.innerText = `Player ${Gameboard.getTurn()} turn`
+                break
+            case 'draw':
+                message.innerText = 'It is a draw...'
+                break
+            default:
+                message.innerText = `The winner is ${Gameboard.checkWinner()}!`
+        }
+
+
     }
     return {initBoard, update}
 })()
