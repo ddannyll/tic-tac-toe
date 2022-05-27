@@ -4,7 +4,7 @@ const Gameboard = (() => {
                  [null, null, null],
                  [null, null, null]]
     const placeX = (row, col) => {
-        if (board[row][col] === null && getTurn() === 'X') {
+        if (board[row][col] === null && getTurn() === 'X' && checkWinner() === 'playing') {
             board[row][col] = 'X'
             turnCounter += 1
             return true
@@ -12,7 +12,7 @@ const Gameboard = (() => {
         return false
     }
     const placeO = (row, col) => {
-        if (board[row][col] === null && getTurn() === 'O') {
+        if (board[row][col] === null && getTurn() === 'O' && checkWinner() === 'playing') {
             board[row][col] = 'O'
             turnCounter += 1
             return true
@@ -125,6 +125,10 @@ const DisplayController = (()=> {
                 break
             default:
                 message.innerText = `The winner is ${Gameboard.checkWinner()}!`
+                const scream = new Audio('./scream.m4a');
+                const apex = new Audio('./youaretheapexchampions.mp3')
+                apex.play()
+                scream.play()
         }
 
 
