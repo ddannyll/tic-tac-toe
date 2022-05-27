@@ -127,6 +127,7 @@ const DisplayController = (()=> {
                 message.innerText = `The winner is ${Gameboard.checkWinner()}!`
                 const scream = new Audio('./scream.m4a');
                 const apex = new Audio('./youaretheapexchampions.mp3')
+                apex.volume = 0.3
                 apex.play()
                 scream.play()
         }
