@@ -1,5 +1,3 @@
-const BoardDiv = document.querySelector('.board')
-
 const Gameboard = (() => {
     let turnCounter = 1
     const board = [[null, null, null],
@@ -71,18 +69,56 @@ const Gameboard = (() => {
         turnCounter = 1
     }
     return {placeX, placeO, getTurn, getBoard, checkWinner, reset}
-})();
+})()
 
 const DisplayController = (()=> {
+    const boardDiv = document.querySelector('.board')
+    const resetButton = document.querySelector('button.reset')
+
+    const _playSquare = (i) => {
+        if (Gameboard.checkWinner() !== 'playing') return
+        Gameboard.getTurn() === 'X' 
+            ? Gameboard.placeX(Math.floor(i/3), i % 3) 
+            : Gameboard.placeO(Math.floor(i/3), i % 3)
+        DisplayController.update()
+    }
+
+    const _reset =  () => {
+        const boardSquares = boardDiv.querySelectorAll('.board-square')
+        boardSquares.forEach((square)=> {
+            square.innerText = ''
+        })
+    }
+
+    resetButton.addEventListener('click', () => {
+        Gameboard.reset()
+        _reset()
+    })
+
+
+    const initBoard = () => {
+        for (let i = 0; i < 9; i++) {
+            const boardSquare = document.createElement('div')
+            boardSquare.className = 'board-square'
+            boardSquare.setAttribute('data-square', i.toString())
+            boardSquare.addEventListener('click', _playSquare.bind(null, i))
+            boardDiv.appendChild(boardSquare)
+        }
+    }
+
     const update = () => {
         const board = [].concat(...Gameboard.getBoard())
         for (let i = 0; i < 9; i++) {
-            const boardSquare = BoardDiv.querySelector(`.boardSquare[data-square=${i}]`)
+            const boardSquare = boardDiv.querySelector(`.board-square[data-square="${i}"]`)
             board[i] === null ? boardSquare.innerText = '' : boardSquare.innerText = board[i]
         }
+
+        
     }
-    return {update}
-})
+    return {initBoard, update}
+})()
+
+DisplayController.initBoard()
 
 
 
